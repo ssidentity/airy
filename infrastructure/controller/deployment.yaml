@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: airy-controller
+  namespace: default
+  labels:
+    app: airy-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: airy-controller
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: airy-controller
+    spec:
+      serviceAccountName: airy-controller
+      automountServiceAccountToken: true
+      containers:
+      - name: app
+        image: "ghcr.io/airyhq/infrastructure/airy-controller:beta"
+        imagePullPolicy: Always
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: airy-controller
+automountServiceAccountToken: true
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: default
+  name: airy-controller
+rules:
+- apiGroups: [""]
+  resources: ["pods", "configmaps", "services"]
+  verbs: ["create", "get", "watch", "update", "list", "patch", "delete"]
+- apiGroups: ["extensions", "apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: airy-controller
+subjects:
+  - kind: ServiceAccount
+    name: airy-controller
+    namespace: default
+roleRef:
+  kind: ClusterRole
+  name: airy-controller
+  apiGroup: rbac.authorization.k8s.io
