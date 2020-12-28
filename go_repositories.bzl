@@ -1562,23 +1562,22 @@ def go_repositories():
     )
     go_repository(
         name = "io_k8s_api",
+        build_file_proto_mode = "disable_global",
+        commit = "a191abe0b71e00ce4cde58af8002aa4c1a8bb068",
         importpath = "k8s.io/api",
-        sum = "h1:ud1c3W3YNzGd6ABJlbFfKXBKXO+1KdGfcgGGNgFR03E=",
-        version = "v0.20.1",
     )
     go_repository(
         name = "io_k8s_apimachinery",
+        build_file_proto_mode = "disable_global",
+        commit = "5ae511e0ed34ac0fbf6e17340df5605372591d00",
         importpath = "k8s.io/apimachinery",
-        sum = "h1:LAhz8pKbgR8tUwn7boK+b2HZdt7MiTu2mkYtFMUjTRQ=",
-        version = "v0.20.1",
     )
     go_repository(
         name = "io_k8s_client_go",
+        build_file_proto_mode = "disable_global",
+        commit = "a5d40177db184c504978c4b08350ac9e367042b0",
         importpath = "k8s.io/client-go",
-        sum = "h1:Xlax8PKbZsjX4gFvNtt4F5MoJ1V5prDvCuoq9B7iax0=",
-        version = "v0.20.0",
     )
-
     go_repository(
         name = "io_k8s_gengo",
         importpath = "k8s.io/gengo",
